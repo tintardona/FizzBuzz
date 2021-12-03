@@ -5,14 +5,39 @@ Concept: make a Fizz class and a Buzz class
 */
 //package fizzbuzz;
 
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
 
 public class FizzBuzz{
+
+    public static void createAndShowGUI() {
+        //Create and set up the window.
+        JFrame frame = new JFrame("FizzBuzz");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    
+        JLabel emptyLabel = new JLabel("");
+        emptyLabel.setPreferredSize(new Dimension(600, 500));
+        frame.getContentPane().add(emptyLabel, BorderLayout.CENTER);
+    
+        //Display the window.
+        frame.pack();
+        frame.setVisible(true);
+    }
+
     public static void main(String[] args){
+        long beforeUsedMem = Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
         long startTime = System.nanoTime();
+        
         Fizz fizz = new Fizz();
         Buzz buzz = new Buzz();
 
-        
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createAndShowGUI();
+            }
+        });
 
         for(int i = 1; i <= 100; i++){
             if((fizz.testFizz(i) && buzz.testBuzz(i))){
@@ -30,8 +55,13 @@ public class FizzBuzz{
                 System.out.println();
             }
         }
-        System.out.println("Elapsed Time: " + (System.nanoTime() - startTime)); 
+        System.out.println("Elapsed Time: " + (System.nanoTime() - startTime));
+        long afterUsedMem=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory(); 
+        long actualMemUsed = afterUsedMem-beforeUsedMem;
+        System.out.println("Memory used: " + actualMemUsed);
     }
+
+    
 }
 
 
@@ -76,5 +106,3 @@ class Buzz{
     }
 
 }
-
-
